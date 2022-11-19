@@ -33,8 +33,8 @@ public class ProductService implements BaseService {
     }
 
     @Override
-    public Object update(Object id, Object... arg) {
-        return baseDA.update(id, arg);
+    public Object update(Object... arg) {
+        return baseDA.update(arg);
     }
 
     @Override

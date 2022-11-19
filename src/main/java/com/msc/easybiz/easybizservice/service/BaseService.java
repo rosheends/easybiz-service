@@ -12,7 +12,7 @@ public interface BaseService {
 
     public Object insert(Object... arg);
 
-    public Object update(Object id, Object... arg);
+    public Object update(Object... arg);
 
     public void delete(Object id);
 }

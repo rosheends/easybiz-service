@@ -44,7 +44,8 @@ import java.util.Map;
         public ResponseEntity<?> updateProject(@PathVariable("productCode") String productCode, @RequestBody String body) {
             logger.info("Request to update product details for code : {}", productCode);
             Map<String, String> data = util.getData(body);
-            return new ResponseEntity<>(productService.getAll(), HttpStatus.OK);
+            // id must be the last parameter
+            return new ResponseEntity<>(productService.update(data.get("description"), productCode), HttpStatus.OK);
         }
 
         @DeleteMapping(path = "/{productCode}")

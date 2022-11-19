@@ -3,6 +3,8 @@ package com.msc.easybiz.easybizservice.dbaccess;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Component
@@ -34,7 +36,8 @@ public class ProductDA implements BaseDA {
 
     @Override
     public Object update(Object... arg) {
-        return dbService.update("INSERT INTO product (product_code, description) VALUES (?,?)", arg);
+        dbService.update("update product set description=? where product_code=?", arg);
+        return dbService.queryForObject("select * from product where description=? and product_code=?", arg);
     }
 
     @Override
