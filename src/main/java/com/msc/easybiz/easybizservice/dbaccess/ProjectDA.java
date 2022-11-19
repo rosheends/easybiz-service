@@ -36,7 +36,7 @@ public class ProjectDA implements BaseDA{
 
     @Override
     public Object update(Object... arg) {
-        return dbService.update("INSERT INTO project (name, description) VALUES (?,?)", arg);
+        return dbService.update("INSERT INTO project (project_name, description) VALUES (?,?)", arg);
     }
 
     @Override

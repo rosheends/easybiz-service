@@ -36,7 +36,7 @@ public class ProjectController extends BaseController {
     public ResponseEntity<?> addProject(@RequestBody String body) {
         logger.info("Request to add a new project");
         Map<String,String> data = util.getData(body);
-        return new ResponseEntity<>(projectService.insert(data.get("project_name"), data.get("description")), HttpStatus.OK);
+        return new ResponseEntity<>(projectService.insert(data.get("project_name"), data.get("description"),data.get("project_code"),data.get("time_budget"),data.get("product_id"),data.get("client_id")), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{projectId}")
