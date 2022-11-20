@@ -3,7 +3,6 @@ package com.msc.easybiz.easybizservice.dbaccess;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Controller;
 
 import java.util.List;
 
@@ -15,7 +14,7 @@ public class ProjectDA implements BaseDA{
 
     @Override
     public List<?> getAll() {
-        return dbService.queryForList("select * from project");
+        return dbService.queryForList("select * from project where is_active=1");
     }
 
     @Override
@@ -30,17 +29,18 @@ public class ProjectDA implements BaseDA{
 
     @Override
     public Object insert(Object... arg) {
-        dbService.update("INSERT INTO project (project_name, description) VALUES (?,?)", arg);
-        return dbService.queryForObject("select * from project order by project_id desc LIMIT 1");
+        dbService.update("INSERT INTO project (project_name, project_code, description, budget, is_active, product_code) VALUES (?,?,?,?,?,?)", arg);
+        return dbService.queryForObject("select * from project where is_active=1 order by id desc LIMIT 1");
     }
 
     @Override
     public Object update(Object... arg) {
-        return dbService.update("INSERT INTO project (project_name, description) VALUES (?,?)", arg);
+        dbService.update("update project set project_name=?, description=?, budget=? where id=?", arg);
+        return dbService.queryForObject("select * from project where is_active=1 order by id desc LIMIT 1");
     }
 
     @Override
     public void delete(Object id) {
-
+        dbService.update("update project set is_active=0 where id=?", id);
     }
 }
