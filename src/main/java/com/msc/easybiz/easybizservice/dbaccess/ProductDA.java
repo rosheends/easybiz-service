@@ -31,7 +31,7 @@ public class ProductDA implements BaseDA {
     @Override
     public Object insert(Object... arg) {
         dbService.update("INSERT INTO product (product_code, description) VALUES (?,?)", arg);
-        return dbService.queryForObject("select * from product order by product_code desc LIMIT 1");
+        return dbService.queryForObject("select * from product");
     }
 
     @Override
