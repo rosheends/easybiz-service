@@ -13,7 +13,7 @@ public class UserDA implements BaseDA{
 
     @Override
     public List<?> getAll() {
-        return dbService.queryForList("select * from app_user where is_active=1");
+        return dbService.queryForList("select * from app_user a inner join role b on a.role_id = b.id where is_active=1");
     }
 
     @Override
@@ -34,12 +34,12 @@ public class UserDA implements BaseDA{
 
     @Override
     public Object update(Object... arg) {
-        dbService.update("update project set project_name=?, description=?, budget=? where id=?", arg);
-        return dbService.queryForObject("select * from project where is_active=1 order by id desc LIMIT 1");
+        dbService.update("update app_user set email=?, username=?, contact_no=?, city=?, address_no=?, street=?, country=?, is_active=?, is_default_pwd=?, role_id=? where id=?", arg);
+        return dbService.queryForObject("select * from app_user where is_active=1 order by id desc LIMIT 1");
     }
 
     @Override
     public void delete(Object id) {
-        dbService.update("update client set is_active=0 where id=?", id);
+        dbService.update("update app_user set is_active=0 where id=?", id);
     }
 }

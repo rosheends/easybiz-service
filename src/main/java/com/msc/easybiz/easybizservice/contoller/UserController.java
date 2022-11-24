@@ -45,7 +45,7 @@ public class UserController extends BaseController {
     public ResponseEntity<?> updateUser(@PathVariable("id") String userId, @RequestBody String body) {
         logger.info("Request to update user details for id : {}", userId);
         Map<String, String> data = util.getData(body);
-        return new ResponseEntity<>(userService.update(data.get("project_name"),data.get("description"),data.get("budget"), userId), HttpStatus.OK);
+        return new ResponseEntity<>(userService.update(data.get("email"), data.get("username"), data.get("contact_no"), data.get("city"), data.get("address_no"), data.get("street"), data.get("country"), data.get("is_active"), data.get("is_default_pwd"), data.get("role_id"), userId), HttpStatus.OK);
     }
 
     @DeleteMapping(path = "/{id}")
