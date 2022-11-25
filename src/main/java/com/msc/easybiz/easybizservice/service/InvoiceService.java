@@ -30,9 +30,13 @@ public class InvoiceService implements BaseService{
         return baseDA.getExpenses(arg);
     }
 
+    public Object getProjExpenses(Object... arg) {
+        return baseDA.getProjExpenses(arg);
+    }
+
     @Override
     public Object insert(Object... arg) {
-        return null;
+        return baseDA.insert(arg);
     }
 
     @Override

@@ -43,9 +43,17 @@ public class InvoiceDA implements BaseDA{
                 , arg);
     }
 
+    public Object getProjExpenses(Object... arg){
+        return dbService.queryForObject(
+                "select SUM(e.amount) as totExp from expense e\n" +
+                        "where e.project_id = ? and e.exp_status = 'Approved' and e.is_active = 1"
+                , arg);
+    }
+
     @Override
     public Object insert(Object... arg) {
-        return null;
+        dbService.update("INSERT INTO invoice (user_id, invoice_date, due_date, late_fee, total_amount, title, payment_status) VALUES (?,?,?,?,?,?,?)", arg);
+        return dbService.queryForObject("select * from project order by id desc LIMIT 1");
     }
 
     @Override

@@ -20,6 +20,13 @@ public class UserDA implements BaseDA{
         return dbService.queryForList("select * from app_user a inner join role b on a.role_id = b.id where is_active=1 and a.role_id = 4");
     }
 
+    public Object getProjClient(Object... arg) {
+        return dbService.queryForList("SELECT *\n" +
+                "      from manage_project a\n" +
+                "              inner join app_user b  on a.user_id = b.id\n" +
+                "               inner join role c on b.role_id = c.id where a.project_id=1 and c.id = 4 LIMIT 1;");
+    }
+
     @Override
     public Object get(Object... arg) {
         return dbService.queryForObject("select * from app_user where id=?", arg);

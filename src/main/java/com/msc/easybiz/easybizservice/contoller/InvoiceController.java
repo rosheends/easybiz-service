@@ -7,10 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
@@ -35,5 +32,18 @@ public class InvoiceController extends BaseController {
         Map<String, Object> data = (Map<String, Object>) invoiceService.get(id);
         data.put("expenses", invoiceService.getExpenses(id));
         return new ResponseEntity<>(data, HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/expense/{id}")
+    public ResponseEntity<?> getExpense(@PathVariable("id") String projId) {
+        logger.info("Request to get expense details for id : {}", projId);
+        return new ResponseEntity<>(invoiceService.getProjExpenses(projId), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/")
+    public ResponseEntity<?> createInvoice(@RequestBody String body) {
+        logger.info("Request to add a new invoice");
+        Map<String,String> data = util.getData(body);
+        return new ResponseEntity<>(invoiceService.insert(data.get("user_id"), data.get("invoice_date"),data.get("due_date"),data.get("late_fee"),data.get("total_amount"), data.get("title"), data.get("payment_status")), HttpStatus.OK);
     }
 }

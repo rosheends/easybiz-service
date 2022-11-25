@@ -35,6 +35,10 @@ public class UserService implements BaseService {
         return baseDA.get(arg);
     }
 
+    public Object getProjClient(Object... arg) {
+        return baseDA.getProjClient(arg);
+    }
+
     public Object getByUsername(String username) {
         return baseDA.getByUsername(username);
     }

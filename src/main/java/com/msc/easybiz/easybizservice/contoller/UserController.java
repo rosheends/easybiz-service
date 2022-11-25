@@ -32,6 +32,12 @@ public class UserController extends BaseController {
         return new ResponseEntity<>(userService.get(userId), HttpStatus.OK);
     }
 
+    @GetMapping(path = "/project/{id}")
+    public ResponseEntity<?> getProjectClient(@PathVariable("id") String projId) {
+        logger.info("Request to get client : {}", projId);
+        return new ResponseEntity<>(userService.getProjClient(projId), HttpStatus.OK);
+    }
+
     @PostMapping(path = "/")
     public ResponseEntity<?> addUser(@RequestBody String body) {
         logger.info("Request to add a new user");
@@ -56,6 +62,12 @@ public class UserController extends BaseController {
     @GetMapping(path = "/client/")
     public ResponseEntity<?> getClients() {
         logger.info("Request to get all clients");
+        return new ResponseEntity<>(userService.getAllClients(), HttpStatus.OK);
+    }
+
+    @GetMapping(path = "/client/{id}")
+    public ResponseEntity<?> getProjClients() {
+        logger.info("Request to get assigned client");
         return new ResponseEntity<>(userService.getAllClients(), HttpStatus.OK);
     }
 
