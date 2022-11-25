@@ -43,14 +43,24 @@ public class SecurityService {
 
         // generate token
         String jwtToken = Jwts.builder()
-                .claim("first_name", user.get("first_name"))
-                .claim("last_name", user.get("last_name"))
+                .claim("name", user.get("first_name") + " " +  user.get("last_name"))
                 .claim("email", username)
+                .claim("role_id", user.get("role_id"))
+                .claim("id", user.get("id"))
                 .setId(UUID.randomUUID().toString())
                 .setIssuedAt(Date.from(Instant.now()))
                 .setExpiration(Date.from(Instant.now().plus(5l, ChronoUnit.MINUTES)))
                 .signWith(hmacKey)
                 .compact();
         return jwtToken;
+    }
+
+    public void validate(String username, String password) throws Exception {
+
+        Map<String, Object> user = (Map<String, Object>) baseDA.getByUsername(username);
+
+        if(!user.get("password").equals(util.getEncodedStr(password))){
+            throw new Exception("UNAUTHORIZED");
+        }
     }
 }

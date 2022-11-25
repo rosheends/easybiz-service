@@ -45,11 +45,8 @@ public class SecurityController extends BaseController{
     public ResponseEntity<?> validate(@RequestBody String body){
         Map<String, String> data = util.getData(body);
         try{
-            String jwt = securityService.authenticate(data.get("username"), data.get("password"));
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.set("auth", jwt);
-            ResponseEntity response = new ResponseEntity<>(responseHeaders ,HttpStatus.OK);
-            return response;
+            securityService.validate(data.get("username"), data.get("password"));
+            return new ResponseEntity<>(HttpStatus.OK);
         } catch (Exception e){
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

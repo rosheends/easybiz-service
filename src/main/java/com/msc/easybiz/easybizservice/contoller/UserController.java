@@ -63,6 +63,11 @@ public class UserController extends BaseController {
     public ResponseEntity<?> resetPassword(@RequestBody String body) {
         logger.info("Request to reset password");
         Map<String,String> data = util.getData(body);
-        return new ResponseEntity<>(userService.insert(data), HttpStatus.OK);
+        try{
+            userService.resetPassword(data.get("username"), data.get("password"), data.get("newPassword"));
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }

@@ -15,6 +15,9 @@ public class UserService implements BaseService {
     private UserDA baseDA;
 
     @Autowired
+    private SecurityService securityService;
+
+    @Autowired
     private Util util;
 
     @Override
@@ -64,8 +67,9 @@ public class UserService implements BaseService {
         return baseDA.getAllClients();
     }
 
-    public void resetPassword(String username, String password) {
-        String ePass = util.getEncodedStr(password);
+    public void resetPassword(String username, String password, String newPassword) throws Exception {
+        String ePass = util.getEncodedStr(newPassword);
+        securityService.validate(username, password);
         baseDA.reset(username, ePass);
     }
 }
