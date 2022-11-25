@@ -52,4 +52,10 @@ public class UserController extends BaseController {
         userService.delete(userId);
         return new ResponseEntity<>(userService.getAll(), HttpStatus.OK);
     }
+
+    @GetMapping(path = "/client/")
+    public ResponseEntity<?> getClients() {
+        logger.info("Request to get all clients");
+        return new ResponseEntity<>(userService.getAllClients(), HttpStatus.OK);
+    }
 }

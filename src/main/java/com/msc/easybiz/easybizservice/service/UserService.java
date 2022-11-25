@@ -59,4 +59,8 @@ public class UserService implements BaseService {
     public void delete(Object id) {
         baseDA.delete(id);
     }
+
+    public List<?> getAllClients() {
+        return baseDA.getAllClients();
+    }
 }
