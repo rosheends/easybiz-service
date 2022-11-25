@@ -50,4 +50,8 @@ public class UserDA implements BaseDA{
     public void delete(Object id) {
         dbService.update("update app_user set is_active=0 where id=?", id);
     }
+
+    public void reset(String username, String password) {
+        dbService.update("update app_user set password=? where username=?", username, password);
+    }
 }

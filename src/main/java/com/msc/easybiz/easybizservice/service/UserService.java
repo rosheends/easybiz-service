@@ -63,4 +63,9 @@ public class UserService implements BaseService {
     public List<?> getAllClients() {
         return baseDA.getAllClients();
     }
+
+    public void resetPassword(String username, String password) {
+        String ePass = util.getEncodedStr(password);
+        baseDA.reset(username, ePass);
+    }
 }

@@ -58,4 +58,11 @@ public class UserController extends BaseController {
         logger.info("Request to get all clients");
         return new ResponseEntity<>(userService.getAllClients(), HttpStatus.OK);
     }
+
+    @PostMapping(path = "/rest")
+    public ResponseEntity<?> resetPassword(@RequestBody String body) {
+        logger.info("Request to reset password");
+        Map<String,String> data = util.getData(body);
+        return new ResponseEntity<>(userService.insert(data), HttpStatus.OK);
+    }
 }
