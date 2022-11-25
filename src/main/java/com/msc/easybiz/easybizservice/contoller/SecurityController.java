@@ -30,10 +30,14 @@ public class SecurityController extends BaseController{
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody String body){
         Map<String, String> data = util.getData(body);
-        String jwt = securityService.authenticate(data.get("username"), data.get("password"));
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("auth", jwt);
-        ResponseEntity response = new ResponseEntity<>(responseHeaders ,HttpStatus.OK);
-        return response;
+        try{
+            String jwt = securityService.authenticate(data.get("username"), data.get("password"));
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("auth", jwt);
+            ResponseEntity response = new ResponseEntity<>(responseHeaders ,HttpStatus.OK);
+            return response;
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
     }
 }

@@ -36,9 +36,7 @@ public class UserController extends BaseController {
     public ResponseEntity<?> addUser(@RequestBody String body) {
         logger.info("Request to add a new user");
         Map<String,String> data = util.getData(body);
-        return new ResponseEntity<>(userService.insert(data.get("first_name"), data.get("last_name"),data.get("email"),data.get("username"),
-                data.get("password"), data.get("contact_no"), data.get("city"), data.get("address_no"), data.get("street"),
-                data.get("country"), data.get("is_active"), data.get("is_default_pwd"), data.get("role_id")), HttpStatus.OK);
+        return new ResponseEntity<>(userService.insert(data), HttpStatus.OK);
     }
 
     @PutMapping(path = "/{id}")

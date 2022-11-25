@@ -21,6 +21,10 @@ public class UserDA implements BaseDA{
         return dbService.queryForObject("select * from app_user where id=?", arg);
     }
 
+    public Object getByUsername(String username) {
+        return dbService.queryForObject("select * from app_user where username=? and is_active=1", username);
+    }
+
     @Override
     public List<?> getAll(Object... arg) {
         return null;
