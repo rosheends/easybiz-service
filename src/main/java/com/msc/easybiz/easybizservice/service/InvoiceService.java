@@ -41,7 +41,15 @@ public class InvoiceService implements BaseService{
 
     @Override
     public Object update(Object... arg) {
-        return null;
+        return baseDA.update(arg);
+    }
+
+    public Object updateInvoiceId(Object... arg) {
+        return baseDA.updateInvoiceId(arg);
+    }
+
+    public Object updateInvPaymentStatus(Object... arg) {
+        return baseDA.updateInvPaymentStatus(arg);
     }
 
     @Override

@@ -44,6 +44,29 @@ public class InvoiceController extends BaseController {
     public ResponseEntity<?> createInvoice(@RequestBody String body) {
         logger.info("Request to add a new invoice");
         Map<String,String> data = util.getData(body);
-        return new ResponseEntity<>(invoiceService.insert(data.get("user_id"), data.get("invoice_date"),data.get("due_date"),data.get("late_fee"),data.get("total_amount"), data.get("title"), data.get("payment_status")), HttpStatus.OK);
+        Map<String,String> mP = (Map<String, String>) invoiceService.insert(data.get("user_id"), data.get("invoice_date"),data.get("due_date"),data.get("late_fee"),data.get("total_amount"), data.get("title"), data.get("payment_status"), data.get("project_id"));
+        return new ResponseEntity<>(invoiceService.updateInvoiceId(mP.get("id"),mP.get("project_id")), HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/expense/{id}")
+    public ResponseEntity<?> updatePaidStatus(@PathVariable("id") String projId, @RequestBody String body) {
+        logger.info("Request to update paid status of expenses for id : {}", projId);
+        Map<String, String> data = util.getData(body);
+        return new ResponseEntity<>(invoiceService.update(data.get("is_paid"), projId), HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/{id}")
+    public ResponseEntity<?> updateInvoicePaidStatus(@PathVariable("id") String invId, @RequestBody String body) {
+        logger.info("Request to update paid status of invoice for id : {}", invId);
+        Map<String, String> data = util.getData(body);
+        Map<String, String> res = (Map<String, String>) invoiceService.updateInvPaymentStatus(data.get("payment_status"), invId);
+        return new ResponseEntity<>(invoiceService.update(invId),HttpStatus.OK);
+    }
+
+    @PutMapping(path = "/expense/inv/{id}")
+    public ResponseEntity<?> updateInvId(@PathVariable("id") String projId, @RequestBody String body) {
+        logger.info("Request to update invoice id of expense record for id : {}", projId);
+        Map<String, String> data = util.getData(body);
+        return new ResponseEntity<>(invoiceService.update(data.get("invoice_id"), projId), HttpStatus.OK);
     }
 }

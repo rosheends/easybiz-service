@@ -35,10 +35,11 @@ public class InvoiceDA implements BaseDA{
 
     public List<?> getExpenses(Object... arg){
         return dbService.queryForList(
-                "select e.*, CONCAT(u.first_name , \" \", u.last_name) AS client_name\n" +
+                "select e.*, p.budget, p.project_name, CONCAT(u.first_name , \" \", u.last_name) AS client_name\n" +
                     "from expense e\n" +
                     "inner join invoice i on i.id = e.invoice_id\n" +
                     "inner join app_user u on u.id = i.user_id\n" +
+                    "inner join project p on e.project_id = p.id\n" +
                     "where e.invoice_id = ? and e.exp_status = 'Approved' and e.is_active = 1"
                 , arg);
     }
@@ -52,13 +53,27 @@ public class InvoiceDA implements BaseDA{
 
     @Override
     public Object insert(Object... arg) {
-        dbService.update("INSERT INTO invoice (user_id, invoice_date, due_date, late_fee, total_amount, title, payment_status) VALUES (?,?,?,?,?,?,?)", arg);
-        return dbService.queryForObject("select * from project order by id desc LIMIT 1");
+        dbService.update("INSERT INTO invoice (user_id, invoice_date, due_date, late_fee, total_amount, title, payment_status, project_id) VALUES (?,?,?,?,?,?,?,?)", arg);
+        return dbService.queryForObject("select * from invoice order by id desc LIMIT 1");
     }
 
     @Override
     public Object update(Object... arg) {
-        return null;
+        dbService.update("UPDATE expense SET is_paid=1 where invoice_id=?", arg);
+        return dbService.queryForObject("select * from expense order by id desc LIMIT 1");
+
+    }
+
+    public Object updateInvoiceId(Object... arg) {
+        dbService.update("UPDATE expense SET invoice_id=? where project_id=? and is_paid is null", arg);
+        return dbService.queryForObject("select * from expense order by project_id desc LIMIT 1");
+
+    }
+
+    public Object updateInvPaymentStatus(Object... arg) {
+        dbService.update("UPDATE invoice SET payment_status=? where id=?", arg);
+        return dbService.queryForObject("select * from invoice order by id desc LIMIT 1");
+
     }
 
     @Override
