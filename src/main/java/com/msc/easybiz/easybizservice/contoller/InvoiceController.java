@@ -34,6 +34,12 @@ public class InvoiceController extends BaseController {
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
+    @GetMapping(path = "/client/{id}")
+    public ResponseEntity<?> getClientInvAll(@PathVariable("id") String userId) {
+        logger.info("Request to get inv for client id : {}", userId);
+        return new ResponseEntity<>(invoiceService.getClientInvAll(userId), HttpStatus.OK);
+    }
+
     @GetMapping(path = "/expense/{id}")
     public ResponseEntity<?> getExpense(@PathVariable("id") String projId) {
         logger.info("Request to get expense details for id : {}", projId);

@@ -66,9 +66,9 @@ public class UserController extends BaseController {
     }
 
     @GetMapping(path = "/client/{id}")
-    public ResponseEntity<?> getProjClients() {
+    public ResponseEntity<?> getProjClients(@PathVariable("id") String projId) {
         logger.info("Request to get assigned client");
-        return new ResponseEntity<>(userService.getAllClients(), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getProjClient(projId), HttpStatus.OK);
     }
 
     @PostMapping(path = "/rest")

@@ -25,17 +25,24 @@ public class InvoiceDA implements BaseDA{
                 "FROM invoice i\n" +
                 "INNER JOIN app_user u on u.id = i.user_id where i.id = ?;", arg);
     }
+    public List<?> getClientInvAll(Object... arg) {
+        return dbService.queryForList("SELECT i.*, CONCAT(u.first_name , \" \", u.last_name) AS client_name\n" +
+                "FROM invoice i\n" +
+                "INNER JOIN app_user u on u.id = i.user_id where u.id = ?;", arg);
+    }
 
     @Override
     public Object get(Object... arg) {
-        return dbService.queryForObject("SELECT i.*, CONCAT(u.first_name , \" \", u.last_name) AS client_name\n" +
+        return dbService.queryForObject("SELECT i.*, p.budget, CONCAT(u.first_name , \" \", u.last_name) AS client_name\n" +
                 "FROM invoice i\n" +
-                "INNER JOIN app_user u on u.id = i.user_id where i.id = ?;", arg);
+                "INNER JOIN app_user u on u.id = i.user_id\n" +
+                "INNER JOIN project p on p.id = i.project_id\n" +
+                "where i.id = ?;", arg);
     }
 
     public List<?> getExpenses(Object... arg){
         return dbService.queryForList(
-                "select e.*, p.budget, p.project_name, CONCAT(u.first_name , \" \", u.last_name) AS client_name\n" +
+                "select e.*, p.project_name, CONCAT(u.first_name , \" \", u.last_name) AS client_name\n" +
                     "from expense e\n" +
                     "inner join invoice i on i.id = e.invoice_id\n" +
                     "inner join app_user u on u.id = i.user_id\n" +

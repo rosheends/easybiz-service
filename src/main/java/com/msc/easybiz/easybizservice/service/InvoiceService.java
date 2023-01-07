@@ -21,6 +21,10 @@ public class InvoiceService implements BaseService{
         return baseDA.getAll();
     }
 
+    public List<?> getClientInvAll(Object... arg) {
+        return baseDA.getClientInvAll(arg);
+    }
+
     @Override
     public Object get(Object... arg) {
         return baseDA.get(arg);
