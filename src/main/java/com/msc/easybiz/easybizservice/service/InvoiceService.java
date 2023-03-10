@@ -61,4 +61,8 @@ public class InvoiceService implements BaseService{
         baseDA.delete(id);
     }
 
+    public Object getProjClient(Object... arg) {
+        return baseDA.getProjClient(arg);
+    }
+
 }

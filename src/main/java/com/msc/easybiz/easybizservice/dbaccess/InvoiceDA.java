@@ -77,6 +77,13 @@ public class InvoiceDA implements BaseDA{
 
     }
 
+    public Object getProjClient(Object... arg) {
+        return dbService.queryForObject("SELECT *\n" +
+                "      from manage_project a\n" +
+                "              inner join app_user b  on a.user_id = b.id\n" +
+                "               inner join role c on b.role_id = c.id where a.project_id=? and c.id = 4 LIMIT 1", arg);
+    }
+
     public Object updateInvPaymentStatus(Object... arg) {
         dbService.update("UPDATE invoice SET payment_status=? where id=?", arg);
         return dbService.queryForObject("select * from invoice order by id desc LIMIT 1");

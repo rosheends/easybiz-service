@@ -50,7 +50,8 @@ public class InvoiceController extends BaseController {
     public ResponseEntity<?> createInvoice(@RequestBody String body) {
         logger.info("Request to add a new invoice");
         Map<String,String> data = util.getData(body);
-        Map<String,String> mP = (Map<String, String>) invoiceService.insert(data.get("user_id"), data.get("invoice_date"),data.get("due_date"),data.get("late_fee"),data.get("total_amount"), data.get("title"), data.get("payment_status"), data.get("project_id"));
+        Map<String,String> cDetails = (Map<String, String>) invoiceService.getProjClient(data.get("project_id"));
+        Map<String,String> mP = (Map<String, String>) invoiceService.insert(cDetails.get("user_id"), data.get("invoice_date"),data.get("due_date"),data.get("late_fee"),data.get("total_amount"), data.get("title"), data.get("payment_status"), data.get("project_id"));
         return new ResponseEntity<>(invoiceService.updateInvoiceId(mP.get("id"),mP.get("project_id")), HttpStatus.OK);
     }
 
